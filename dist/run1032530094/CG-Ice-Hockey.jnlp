@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="CG-Ice-Hockey.jnlp">
+  <information>
+    <title>CG-Ice-Hockey</title>
+    <vendor>Daniel</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="CG-Ice-Hockey.jar" size="7497" download="eager" />
+    <jar href="lib\gluegen-rt.jar" size="344889" download="eager" />
+    <jar href="lib\jogl-all.jar" size="3410578" download="eager" />
+  </resources>
+  <application-desc main-class="cg.ice.hockey.GUI"  name="CG-Ice-Hockey" >
+  </application-desc>
+  <update check="always"/>
+</jnlp>
