@@ -26,7 +26,7 @@ class GLRenderer implements GLEventListener {
         this.gl = drawable.getGL().getGL2();
         
         glu = new GLU();
-        glu.gluOrtho2D(0, width, 0, height);
+        glu.gluOrtho2D(0, width, height, 0);
     }
 
     @Override
@@ -38,13 +38,7 @@ class GLRenderer implements GLEventListener {
     public void display(GLAutoDrawable drawable) {
         System.out.println("display");
         if (ready)
-            drawCircle(20);
-        
-        gl.glPushMatrix();
-            gl.glColor3ub((byte) 255, (byte) 0, (byte) 0);
-            gl.glTranslated(width / 2.0, height / 2.0, 0);
-            new GLUT().glutWireSphere(0.05, 10, 8); /* lua 1 */
-        gl.glPopMatrix();
+            drawCircle(20, width / 2, height / 2);
     }
 
     @Override
@@ -56,16 +50,16 @@ class GLRenderer implements GLEventListener {
         ready = true;
     }
     
-    void drawCircle(float radius) {
+    void drawCircle(float radius, float x, float y) {
         System.out.println("drawing circle");
         gl.glPushMatrix();
-            gl.glTranslated(width / 2.0, height / 2.0, 0);
+            gl.glTranslated(x, y, 0);
             
             gl.glBegin(gl.GL_LINES);
             for (int i = 0; i < 360; i++) {
                 gl.glColor3f(139, 69, 19);
-                float x = (float) (radius * cos(i));
-                float y = (float) (radius * sin(i));
+                x = (float) (radius * cos(i));
+                y = (float) (radius * sin(i));
                 gl.glVertex3f(0, 0, 0);
                 gl.glVertex3f(x, y, 0);
             }
