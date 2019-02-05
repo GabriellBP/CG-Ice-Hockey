@@ -14,6 +14,7 @@ public class GUI extends javax.swing.JFrame {
     private GLCanvas canvas;
     private Animator animator;
     private GLRenderer renderer;
+    public Color color;
             
     public GUI() {
         initComponents();
@@ -83,7 +84,7 @@ public class GUI extends javax.swing.JFrame {
         typeLabel = new javax.swing.JLabel();
         densitySlider = new javax.swing.JSlider();
         densityLabel = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnColorPick = new javax.swing.JButton();
 
         bgrpAlgorithm.add(btnBresenham);
         bgrpAlgorithm.add(btnLineEq);
@@ -124,10 +125,10 @@ public class GUI extends javax.swing.JFrame {
         densityLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         densityLabel.setText("Espessura:");
 
-        jButton1.setText("Paleta de Cores");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnColorPick.setText("Paleta de Cores");
+        btnColorPick.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnColorPickActionPerformed(evt);
             }
         });
 
@@ -149,9 +150,9 @@ public class GUI extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(densitySlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(74, 74, 74)
-                        .addComponent(jButton1)))
+                        .addComponent(btnColorPick)))
                 .addContainerGap(371, Short.MAX_VALUE))
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1046, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,7 +168,7 @@ public class GUI extends javax.swing.JFrame {
                             .addComponent(btnBresenham)
                             .addComponent(btnLineEq))
                         .addComponent(densitySlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton1))
+                    .addComponent(btnColorPick))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(51, 51, 51))
@@ -178,10 +179,12 @@ public class GUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        javax.swing.JColorChooser jColorChooser = new javax.swing.JColorChooser();
-        javax.swing.JColorChooser.showDialog(GUI.this, "Selecione uma cor", Color.yellow);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnColorPickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnColorPickActionPerformed
+        this.color = javax.swing.JColorChooser.showDialog(GUI.this, "Selecione uma cor", Color.lightGray);
+        if (this.color == null) {
+            this.color = Color.lightGray;
+        }
+    }//GEN-LAST:event_btnColorPickActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -218,10 +221,10 @@ public class GUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgrpAlgorithm;
     private javax.swing.JRadioButton btnBresenham;
+    private javax.swing.JButton btnColorPick;
     private javax.swing.JRadioButton btnLineEq;
     private javax.swing.JLabel densityLabel;
     private javax.swing.JSlider densitySlider;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel typeLabel;
     // End of variables declaration//GEN-END:variables
