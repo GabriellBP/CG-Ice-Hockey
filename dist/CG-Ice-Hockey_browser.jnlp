@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="CG-Ice-Hockey.jar" size="7497" download="eager" />
+    <jar href="CG-Ice-Hockey.jar" size="16226" download="eager" />
     <jar href="lib\gluegen-rt.jar" size="344889" download="eager" />
     <jar href="lib\jogl-all.jar" size="3410578" download="eager" />
   </resources>
