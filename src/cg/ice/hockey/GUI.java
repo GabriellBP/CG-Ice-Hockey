@@ -28,6 +28,7 @@ public class GUI extends javax.swing.JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 renderer.onClick(e.getX(), e.getY());
+                System.out.println("clicou em: x=" + e.getX() + ", y=" + e.getY());
             }
 
             @Override
