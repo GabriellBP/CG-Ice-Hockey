@@ -11,10 +11,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.JColorChooser;
 
 public class GUI extends javax.swing.JFrame {
-    private GLCanvas canvas;
+    private final GLCanvas canvas;
     private Animator animator;
     private GLRenderer renderer;
     public Color color;
@@ -32,17 +31,13 @@ public class GUI extends javax.swing.JFrame {
         canvas.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("clicou em: x=" + e.getX() + ", y=" + e.getY());
-                
-                System.out.println(btnLineEq.isSelected() ? "Line Eq" : "Bresenham");
-                renderer.setLineStrategy(getCurrentLineStrategy());
-                
-                renderer.onClick(e.getX(), e.getY());
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
+                renderer.setLineStrategy(getCurrentLineStrategy());
                 
+                renderer.onClick(e.getX(), e.getY());
             }
 
             @Override
