@@ -7,7 +7,8 @@ import static java.lang.Math.abs;
 public class LineEquationStrategy implements LineStrategy {
 
     @Override
-    public Line generateLine(Point p1, Point p2) {
+    public Line generateLine(Point pp1, Point pp2) {
+        Point p1 = new Point(pp1.x, pp1.y), p2 = new Point(pp2.x, pp2.y);
         boolean inverted = abs(p2.y - p1.y) > abs(p2.x - p1.x);
         if (inverted) {
             int aux = p1.x; p1.x = p1.y; p1.y = aux;

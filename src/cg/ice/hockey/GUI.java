@@ -35,7 +35,7 @@ public class GUI extends javax.swing.JFrame {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                renderer.setLineStrategy(getCurrentLineStrategy());
+                updateRenderer();
                 
                 renderer.onClick(e.getX(), e.getY());
             }
@@ -118,9 +118,19 @@ public class GUI extends javax.swing.JFrame {
         );
 
         btnBresenham.setText("Bresenham");
+        btnBresenham.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBresenhamActionPerformed(evt);
+            }
+        });
 
         btnLineEq.setSelected(true);
         btnLineEq.setText("Line equation");
+        btnLineEq.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLineEqActionPerformed(evt);
+            }
+        });
 
         lblAlgorithm.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblAlgorithm.setText("Tipo de algoritmo:");
@@ -206,6 +216,16 @@ public class GUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnColorPickActionPerformed
 
+    private void btnLineEqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLineEqActionPerformed
+        System.out.println("changed algorithm to Line Eq");
+        updateRenderer();
+    }//GEN-LAST:event_btnLineEqActionPerformed
+
+    private void btnBresenhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBresenhamActionPerformed
+        System.out.println("changed algorithm to Bresenham");
+        updateRenderer();
+    }//GEN-LAST:event_btnBresenhamActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -253,5 +273,9 @@ public class GUI extends javax.swing.JFrame {
 
     private LineStrategy getCurrentLineStrategy() {
         return btnLineEq.isSelected() ? new LineEquationStrategy() : new BresenhamLineStrategy();
+    }
+
+    private void updateRenderer() {
+        renderer.setLineStrategy(getCurrentLineStrategy());
     }
 }

@@ -51,7 +51,6 @@ class GLRenderer implements GLEventListener {
         glu.gluOrtho2D(0, width, height, 0);
         
         this.arenaRenderer = new ArenaRenderer(this.gl, this.lineStrategy);
-//        this.bleachersRenderer = new BleachersRenderer(this.gl, this.lineStrategy);
         this.bleachersRenderer = new BleachersRenderer(this.gl, this.lineStrategy);
     }
 

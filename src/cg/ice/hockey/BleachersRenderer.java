@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class BleachersRenderer {
     private GL2 gl;
     private LineStrategy lineStrategy;    
-    private ArrayList<Line> bleachers = new ArrayList();
+    private ArrayList<Point[]> bleachers = new ArrayList();
 
     public BleachersRenderer(GL2 gl, LineStrategy lineStrategy) {
         this.gl = gl;
@@ -23,14 +23,15 @@ public class BleachersRenderer {
     }
     
     public void addBleacher(Point p1, Point p2) {
-        this.bleachers.add(this.lineStrategy.generateLine(p1, p2));
+        this.bleachers.add(new Point[] {p1, p2});
     }
     
     void drawBleachrs() {
         gl.glColor3ub((byte) 0, (byte) 0, (byte) 255);
         this.bleachers.forEach(bleach -> {
+            Line line = lineStrategy.generateLine(bleach[0], bleach[1]);
             gl.glBegin(GL_POINTS);
-                bleach.points.forEach(p -> {
+                line.points.forEach(p -> {
                     gl.glVertex2d(p.x, p.y);
                 });
             gl.glEnd();
