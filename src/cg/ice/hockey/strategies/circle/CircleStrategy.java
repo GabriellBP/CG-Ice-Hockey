@@ -1,8 +1,8 @@
 package cg.ice.hockey.strategies.circle;
 
 import cg.ice.hockey.util.Point;
-import javafx.scene.shape.Circle;
+import cg.ice.hockey.util.Circle;
 
 public interface CircleStrategy {
-    Circle generateCircle(Point center, float radius);
+    Circle generateCircle(Point center, int radius);
 }
