@@ -29,4 +29,4 @@ public class BresenhamCircleStrategy implements CircleStrategy{
         }
         return circle;
     }
-}
+    }

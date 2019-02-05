@@ -1,5 +1,8 @@
 package cg.ice.hockey;
 
+import cg.ice.hockey.strategies.circle.BresenhamCircleStrategy;
+import cg.ice.hockey.strategies.circle.CircleStrategy;
+import cg.ice.hockey.strategies.circle.CircumferenceEquationStrategy;
 import cg.ice.hockey.strategies.line.BresenhamLineStrategy;
 import cg.ice.hockey.strategies.line.LineEquationStrategy;
 import cg.ice.hockey.strategies.line.LineStrategy;
@@ -21,7 +24,7 @@ public class GUI extends javax.swing.JFrame {
     public GUI() {
         initComponents();
         
-        renderer = new GLRenderer(new GLU(), jPanel1.getWidth(), jPanel1.getHeight(), getCurrentLineStrategy());
+        renderer = new GLRenderer(new GLU(), jPanel1.getWidth(), jPanel1.getHeight(), getCurrentLineStrategy(), getCurrentCircleStrategy());
         renderer.status = lblStatus;
         
         canvas = new GLCanvas();
@@ -274,8 +277,13 @@ public class GUI extends javax.swing.JFrame {
     private LineStrategy getCurrentLineStrategy() {
         return btnLineEq.isSelected() ? new LineEquationStrategy() : new BresenhamLineStrategy();
     }
+    
+    private CircleStrategy getCurrentCircleStrategy() {
+        return btnLineEq.isSelected() ? new CircumferenceEquationStrategy() : new BresenhamCircleStrategy();
+    }
 
     private void updateRenderer() {
         renderer.setLineStrategy(getCurrentLineStrategy());
+        renderer.setCircleStrategy(getCurrentCircleStrategy());
     }
 }

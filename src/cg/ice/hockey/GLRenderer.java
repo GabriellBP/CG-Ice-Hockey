@@ -34,11 +34,12 @@ class GLRenderer implements GLEventListener {
     private ArenaRenderer arenaRenderer;
     private BleachersRenderer bleachersRenderer;
 
-    GLRenderer(GLU glu, int width, int height, LineStrategy lineStrategy) {
+    GLRenderer(GLU glu, int width, int height, LineStrategy lineStrategy, CircleStrategy circleStrategy) {
         this.glu = glu;
         this.width = width;
         this.height = height;
         this.lineStrategy = lineStrategy;
+        this.circleStrategy = circleStrategy;
     }
 
     @Override
@@ -50,7 +51,7 @@ class GLRenderer implements GLEventListener {
         glu = new GLU();
         glu.gluOrtho2D(0, width, height, 0);
         
-        this.arenaRenderer = new ArenaRenderer(this.gl, this.lineStrategy);
+        this.arenaRenderer = new ArenaRenderer(this.gl, this.lineStrategy, this.circleStrategy);
         this.bleachersRenderer = new BleachersRenderer(this.gl, this.lineStrategy);
     }
 
@@ -62,7 +63,7 @@ class GLRenderer implements GLEventListener {
     @Override
     public void display(GLAutoDrawable drawable) {
         this.gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        this.gl.glClearColor(1, 1, 1, 1);
+        this.gl.glClearColor((float) (242 / 256.0), (float) (254 / 256.0), (float) (255/256.0), 1);
         if (stage > 0) {
             arenaRenderer.drawArena(arenaPoints.get(0), arenaPoints.get(1));
             bleachersRenderer.drawBleachrs();
@@ -104,7 +105,7 @@ class GLRenderer implements GLEventListener {
 
     public void setCircleStrategy(CircleStrategy circleStrategy) {
         this.circleStrategy = circleStrategy;
+        this.arenaRenderer.setCircleStrategy(circleStrategy);
     }
-    
     
 }
