@@ -99,6 +99,8 @@ class GLRenderer implements GLEventListener {
 
     public void setLineStrategy(LineStrategy lineStrategy) {
         this.lineStrategy = lineStrategy;
+        this.arenaRenderer.setLineStrategy(lineStrategy);
+        this.bleachersRenderer.setLineStrategy(lineStrategy);
     }
 
     public void setCircleStrategy(CircleStrategy circleStrategy) {
