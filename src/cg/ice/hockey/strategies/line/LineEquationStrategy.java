@@ -11,8 +11,8 @@ public class LineEquationStrategy implements LineStrategy {
         Point p1 = new Point(pp1.x, pp1.y), p2 = new Point(pp2.x, pp2.y);
         boolean inverted = abs(p2.y - p1.y) > abs(p2.x - p1.x);
         if (inverted) {
-            int aux = p1.x; p1.x = p1.y; p1.y = aux;
-            aux = p2.x; p2.x = p2.y; p2.y = aux;
+            p1 = new Point(p1.y, p1.x);
+            p2 = new Point(p2.y, p2.x);
         }
         
         if (p1.x > p2.x) {
@@ -20,10 +20,15 @@ public class LineEquationStrategy implements LineStrategy {
         }
         
         double m = (p2.y - p1.y) / ((p2.x - p1.x) * 1.0);
-        int x, y;
+        int x = p1.x, y = p1.y;
         
         Line line = new Line();
-        for (x = p1.x; x <= p2.x; x++) {
+        if (inverted) {
+            line.addPoint(y, x);
+        } else {
+            line.addPoint(x, y);
+        }
+        for (x = p1.x; x < p2.x; x++) {
             y = (int) (p1.y + m * (x - p1.x));
             if (inverted) {
                 line.addPoint(y, x);
