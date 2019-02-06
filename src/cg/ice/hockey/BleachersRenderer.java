@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class BleachersRenderer {
     private GL2 gl;
     private LineStrategy lineStrategy;    
+    
     private ArrayList<Point[]> bleachers = new ArrayList();
 
     public BleachersRenderer(GL2 gl, LineStrategy lineStrategy) {
@@ -36,5 +37,9 @@ public class BleachersRenderer {
                 });
             gl.glEnd();
         });
+    }
+    
+    void reset() {
+        this.bleachers = new ArrayList();
     }
 }

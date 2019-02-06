@@ -18,6 +18,7 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import java.util.ArrayList;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 class GLRenderer implements GLEventListener {
     private GLU glu;
@@ -25,11 +26,11 @@ class GLRenderer implements GLEventListener {
     private final int width, height;
     private LineStrategy lineStrategy;
     private CircleStrategy circleStrategy;
-    public JLabel status;
     
-    private int stage = 0;
+    private int stage;
+    public JLabel status;
     private Point auxPoint;
-    private final ArrayList<Point> arenaPoints = new ArrayList();
+    private ArrayList<Point> arenaPoints = new ArrayList();
     
     private ArenaRenderer arenaRenderer;
     private BleachersRenderer bleachersRenderer;
@@ -45,14 +46,14 @@ class GLRenderer implements GLEventListener {
     @Override
     public void init(GLAutoDrawable drawable) {
         System.out.println("init");
-        this.gl = drawable.getGL().getGL2();
-        this.status.setText("TL Arena");
-        
+        gl = drawable.getGL().getGL2();
         glu = new GLU();
         glu.gluOrtho2D(0, width, height, 0);
         
-        this.arenaRenderer = new ArenaRenderer(this.gl, this.lineStrategy, this.circleStrategy);
-        this.bleachersRenderer = new BleachersRenderer(this.gl, this.lineStrategy);
+        setStage(0);
+        
+        arenaRenderer = new ArenaRenderer(this.gl, this.lineStrategy, this.circleStrategy);
+        bleachersRenderer = new BleachersRenderer(this.gl, this.lineStrategy);
     }
 
     @Override
@@ -77,22 +78,27 @@ class GLRenderer implements GLEventListener {
 
     void onClick(int x, int y) {
         if (stage == 0) { // esperando pontos da arena
-            this.arenaPoints.add(new Point(x, y));
-            this.status.setText("BR Arena");
+            arenaPoints.add(new Point(x, y));
+            status.setText("BR Arena");
             
-            if (this.arenaPoints.size() == 2) {
-                stage++;
-                this.status.setText("P1 Bleach");
+            if (arenaPoints.size() == 2) {
+                Point p1 = arenaPoints.get(0), p2 = arenaPoints.get(1);
+                float ratio = (p2.y - p1.y) / (p2.x - p1.x);
+                
+                if (ratio < 1 || 2.2 < ratio || p1.x > p2.x || p1.y > p2.y) {
+                    JOptionPane.showMessageDialog(null, "Arena inválida!", "Alerta", JOptionPane.ERROR_MESSAGE);
+                    reset();
+                } else {
+                    setStage(stage + 1);
+                }
             }
         } else {
             if (stage == 1) {
                 this.auxPoint = new Point(x, y);
-                stage++;
-                this.status.setText("P2 Bleach");
+                setStage(stage + 1);
             } else {
                 this.bleachersRenderer.addBleacher(auxPoint, new Point(x, y));
-                stage--;
-                this.status.setText("P1 Bleach");
+                setStage(stage - 1);
             }
         }
     }
@@ -106,6 +112,29 @@ class GLRenderer implements GLEventListener {
     public void setCircleStrategy(CircleStrategy circleStrategy) {
         this.circleStrategy = circleStrategy;
         this.arenaRenderer.setCircleStrategy(circleStrategy);
+    }
+    
+    private void setStage(int value) {
+        stage = value;
+        
+        switch (stage) {
+            case 0:
+                status.setText("TL Arena");
+                break;
+            case 1:
+                status.setText("P1 Bleach");
+                break;
+            case 2:
+                this.status.setText("P2 Bleach");
+                break;
+        }
+    }
+
+    void reset() {
+        stage = 0;
+        status.setText("TL Arena");
+        arenaPoints = new ArrayList();
+        bleachersRenderer.reset();
     }
     
 }
