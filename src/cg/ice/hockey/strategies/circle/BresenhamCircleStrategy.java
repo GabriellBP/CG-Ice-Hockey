@@ -24,19 +24,8 @@ public class BresenhamCircleStrategy implements CircleStrategy {
         int x = 0;
         int y = radius;
         float d = (5/4) - radius;
-        
-        quadrant.addPoint(x, y);
-        while (y > x) {
-            if (d < 0) {
-                /* escolhe E */
-                d = d + 2 * x + 3;
-                x++;
-            } else {
-                /* escolhe SE */
-                d = d + 2 * (x - y) + 5;
-                x++;
-                y--;
-            }
+
+        do {
             if (code == 1) {
                 quadrant.addPoint(center.x + x, center.y + y);
                 quadrant.addPoint(center.x + y, center.y + x);
@@ -50,7 +39,19 @@ public class BresenhamCircleStrategy implements CircleStrategy {
                 quadrant.addPoint(center.x + y, center.y - x);
                 quadrant.addPoint(center.x + x, center.y - y);
             }
-        }
+            
+            if (d < 0) {
+                /* escolhe E */
+                d = d + 2 * x + 3;
+                x++;
+            } else {
+                /* escolhe SE */
+                d = d + 2 * (x - y) + 5;
+                x++;
+                y--;
+            }
+        } while(y >= x);
+        
         return quadrant;
     }
 
