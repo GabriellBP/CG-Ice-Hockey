@@ -38,6 +38,7 @@ class GLRenderer implements GLEventListener {
     private Color brushColor;
     private ArenaRenderer arenaRenderer;
     private BleachersRenderer bleachersRenderer;
+    private boolean globalBrushSize, globalBrushColor;
 
     GLRenderer(GLU glu, int width, int height, int brushSize, Color brushColor, LineStrategy lineStrategy, CircleStrategy circleStrategy) {
         this.glu = glu;
@@ -56,10 +57,10 @@ class GLRenderer implements GLEventListener {
         glu = new GLU();
         glu.gluOrtho2D(0, width, height, 0);
         
-        setStage(0);
+        arenaRenderer = new ArenaRenderer(gl, lineStrategy, circleStrategy);
+        bleachersRenderer = new BleachersRenderer(gl, lineStrategy);
         
-        arenaRenderer = new ArenaRenderer(gl, brushSize, lineStrategy, circleStrategy);
-        bleachersRenderer = new BleachersRenderer(gl, brushSize, brushColor, lineStrategy);
+        setStage(0);
     }
 
     @Override
@@ -106,6 +107,8 @@ class GLRenderer implements GLEventListener {
                 if (invalid) {
                     JOptionPane.showMessageDialog(null, "Arena inválida!", "Alerta", JOptionPane.ERROR_MESSAGE);
                     reset();
+                } else {
+                    arenaRenderer.setCreated(true);
                 }
             }
         } else {
@@ -132,13 +135,24 @@ class GLRenderer implements GLEventListener {
 
     void setBrushSize(int value) {
         brushSize = value;
-        arenaRenderer.setBrushSize(value);
+        arenaRenderer.setGlobalBrushSize(value);
         bleachersRenderer.setBrushSize(value);
     }
 
     void setBrushColor(Color brushColor) {
         this.brushColor = brushColor;
         bleachersRenderer.setBrushColor(brushColor);
+    }
+
+    public void setGlobalBrushSize(boolean globalBrushSize) {
+        this.globalBrushSize = globalBrushSize;
+        arenaRenderer.setUseGlobalBrushSize(globalBrushSize);
+        bleachersRenderer.setGlobalBrushSize(globalBrushSize);
+    }
+
+    public void setGlobalBrushColor(boolean globalBrushColor) {
+        this.globalBrushColor = globalBrushColor;
+        bleachersRenderer.setGlobalBrushColor(globalBrushColor);
     }
     
     private void setStage(int value) {
@@ -147,6 +161,7 @@ class GLRenderer implements GLEventListener {
         switch (stage) {
             case 0:
                 status.setText("TL Arena");
+                arenaRenderer.setCreated(false);
                 break;
             case 1:
                 status.setText("P1 Bleach");
@@ -158,8 +173,7 @@ class GLRenderer implements GLEventListener {
     }
 
     void reset() {
-        stage = 0;
-        status.setText("TL Arena");
+        setStage(0);
         arenaPoints = new ArrayList();
         bleachersRenderer.reset();
     }

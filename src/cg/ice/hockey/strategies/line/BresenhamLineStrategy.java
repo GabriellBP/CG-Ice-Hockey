@@ -2,13 +2,14 @@ package cg.ice.hockey.strategies.line;
 
 import cg.ice.hockey.util.Point;
 import cg.ice.hockey.util.Line;
+import java.awt.Color;
 
 public class BresenhamLineStrategy implements LineStrategy {
 
     @Override
-    public Line generateLine(Point p1, Point p2) {
+    public Line generateLine(Point p1, Point p2, int thickness, Color color) {
         int dx, dy, x, y, incX, incY, abs;
-        Line line = new Line();
+        Line line = new Line(p1, p2, thickness, color);
         
         x = p1.x;
         y = p1.y;
@@ -37,5 +38,10 @@ public class BresenhamLineStrategy implements LineStrategy {
         }
         
         return line;
+    }
+
+    @Override
+    public Line generateLine(Point p1, Point p2, int thickness) {
+        return generateLine(p1, p2, thickness, Color.BLACK);
     }
 }

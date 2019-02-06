@@ -2,12 +2,13 @@ package cg.ice.hockey.strategies.line;
 
 import cg.ice.hockey.util.Line;
 import cg.ice.hockey.util.Point;
+import java.awt.Color;
 import static java.lang.Math.abs;
 
 public class LineEquationStrategy implements LineStrategy {
 
     @Override
-    public Line generateLine(Point pp1, Point pp2) {
+    public Line generateLine(Point pp1, Point pp2, int thickness, Color color) {
         Point p1 = new Point(pp1.x, pp1.y), p2 = new Point(pp2.x, pp2.y);
         boolean inverted = abs(p2.y - p1.y) > abs(p2.x - p1.x);
         if (inverted) {
@@ -22,7 +23,7 @@ public class LineEquationStrategy implements LineStrategy {
         double m = (p2.y - p1.y) / ((p2.x - p1.x) * 1.0);
         int x = p1.x, y = p1.y;
         
-        Line line = new Line();
+        Line line = new Line(p1, p2, thickness, color);
         if (inverted) {
             line.addPoint(y, x);
         } else {
@@ -38,5 +39,10 @@ public class LineEquationStrategy implements LineStrategy {
         }
         
         return line;
+    }
+
+    @Override
+    public Line generateLine(Point p1, Point p2, int thickness) {
+        return generateLine(p1, p2, thickness, Color.BLACK);
     }
 }

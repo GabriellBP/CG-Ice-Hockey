@@ -8,22 +8,35 @@ import cg.ice.hockey.util.Point;
 import static com.jogamp.opengl.GL.GL_POINTS;
 import com.jogamp.opengl.GL2;
 import java.util.ArrayList;
+import java.awt.Color;
 
 public class ArenaRenderer {
     private GL2 gl;
-    private int brushSize;
+    private int brushSize, globalBrushSize;
     private LineStrategy lineStrategy;
     private CircleStrategy circleStrategy;
+    private boolean created = false, useGlobalBrushSize;
 
-    public ArenaRenderer(GL2 gl, int brushSize, LineStrategy lineStrategy, CircleStrategy circleStrategy) {
+    public ArenaRenderer(GL2 gl, LineStrategy lineStrategy, CircleStrategy circleStrategy) {
         this.gl = gl;
-        this.brushSize = brushSize;
         this.lineStrategy = lineStrategy;
         this.circleStrategy = circleStrategy;
     }
 
-    public void setBrushSize(int brushSize) {
-        this.brushSize = brushSize;
+    public void setCreated(boolean created) {
+        this.created = created;
+    }
+
+    public void setGlobalBrushSize(int globalBrushSize) {
+        this.globalBrushSize = globalBrushSize;
+        
+        if (!created) {
+            brushSize = globalBrushSize;
+        }
+    }
+
+    public void setUseGlobalBrushSize(boolean useGlobalBrushSize) {
+        this.useGlobalBrushSize = useGlobalBrushSize;
     }
     
     public void setLineStrategy(LineStrategy lineStrategy) {
@@ -38,7 +51,7 @@ public class ArenaRenderer {
         int width = p2.x - p1.x, height = p2.y - p1.y;
         
         int radiusCorner = (int) (width * 0.28), radiusZones = (int) (width * 0.14), radiusGoalZone = (int) (width * 0.09);
-        int goalAreaHeight = (int) (height * 0.07), goalLineMargin = (int) (width * 0.066), midAreaHeight = (int) (height * 0.35), 
+        int goalAreaHeight = (int) (height * 0.07), goalLineMargin = (int) (width * 0.065), midAreaHeight = (int) (height * 0.35), 
             centralLineHeight = height / 2;
         
         Circle tlCorner = circleStrategy.generateQuadrant(new Point(p1.x + radiusCorner, p1.y + radiusCorner), radiusCorner, 3);
@@ -67,17 +80,17 @@ public class ArenaRenderer {
         circles.add(blZone);
         circles.add(brZone);
         
-        Line topSide = lineStrategy.generateLine(new Point(p1.x + radiusCorner, p1.y), new Point(p2.x - radiusCorner, p1.y));
-        Line rightSide = lineStrategy.generateLine(new Point(p2.x, p1.y + radiusCorner), new Point(p2.x, p2.y - radiusCorner));
-        Line bottomSide = lineStrategy.generateLine(new Point(p1.x + radiusCorner, p2.y), new Point(p2.x - radiusCorner, p2.y));
-        Line leftSide = lineStrategy.generateLine(new Point(p1.x, p1.y + radiusCorner), new Point(p1.x, p2.y - radiusCorner));
+        Line topSide = lineStrategy.generateLine(new Point(p1.x + radiusCorner, p1.y), new Point(p2.x - radiusCorner, p1.y), brushSize);
+        Line rightSide = lineStrategy.generateLine(new Point(p2.x, p1.y + radiusCorner), new Point(p2.x, p2.y - radiusCorner), brushSize);
+        Line bottomSide = lineStrategy.generateLine(new Point(p1.x + radiusCorner, p2.y), new Point(p2.x - radiusCorner, p2.y), brushSize);
+        Line leftSide = lineStrategy.generateLine(new Point(p1.x, p1.y + radiusCorner), new Point(p1.x, p2.y - radiusCorner), brushSize);
         
-        Line topGoalLine = lineStrategy.generateLine(new Point(p1.x + goalLineMargin, p1.y + goalAreaHeight), new Point(p2.x - goalLineMargin, p1.y + goalAreaHeight));
-        Line bottomGoalLine = lineStrategy.generateLine(new Point(p1.x + goalLineMargin, p2.y - goalAreaHeight), new Point(p2.x - goalLineMargin, p2.y - goalAreaHeight));
+        Line topGoalLine = lineStrategy.generateLine(new Point(p1.x + goalLineMargin, p1.y + goalAreaHeight), new Point(p2.x - goalLineMargin, p1.y + goalAreaHeight), brushSize);
+        Line bottomGoalLine = lineStrategy.generateLine(new Point(p1.x + goalLineMargin, p2.y - goalAreaHeight), new Point(p2.x - goalLineMargin, p2.y - goalAreaHeight), brushSize);
         
-        Line topMidAreaLine = lineStrategy.generateLine(new Point(p1.x, p1.y + midAreaHeight), new Point(p2.x, p1.y + midAreaHeight));
-        Line centralMidAreaLine = lineStrategy.generateLine(new Point(p1.x, p1.y + centralLineHeight), new Point(p2.x, p1.y + centralLineHeight));
-        Line bottomMidAreaLine = lineStrategy.generateLine(new Point(p1.x, p2.y - midAreaHeight), new Point(p2.x, p2.y - midAreaHeight));
+        Line topMidAreaLine = lineStrategy.generateLine(new Point(p1.x, p1.y + midAreaHeight), new Point(p2.x, p1.y + midAreaHeight), brushSize);
+        Line centralMidAreaLine = lineStrategy.generateLine(new Point(p1.x, p1.y + centralLineHeight), new Point(p2.x, p1.y + centralLineHeight), brushSize);
+        Line bottomMidAreaLine = lineStrategy.generateLine(new Point(p1.x, p2.y - midAreaHeight), new Point(p2.x, p2.y - midAreaHeight), brushSize);
         
         ArrayList<Line> lines = new ArrayList();
         lines.add(topSide);
@@ -91,7 +104,12 @@ public class ArenaRenderer {
         lines.add(bottomMidAreaLine);
         
         gl.glColor3ub((byte) 0, (byte) 0, (byte) 0);
-        gl.glPointSize(brushSize);
+        
+        if (!useGlobalBrushSize) {
+            gl.glPointSize(brushSize);
+        } else {
+            gl.glPointSize(globalBrushSize);
+        }
         
         circles.forEach(circle -> {
             gl.glBegin(GL_POINTS);

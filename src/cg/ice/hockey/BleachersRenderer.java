@@ -1,6 +1,5 @@
 package cg.ice.hockey;
 
-import cg.ice.hockey.strategies.circle.CircleStrategy;
 import cg.ice.hockey.strategies.line.LineStrategy;
 import cg.ice.hockey.util.Line;
 import cg.ice.hockey.util.Point;
@@ -14,10 +13,11 @@ public class BleachersRenderer {
     private int brushSize;
     private Color brushColor;
     private LineStrategy lineStrategy;
+    private boolean globalBrushSize, globalBrushColor;
     
-    private ArrayList<Point[]> bleachers = new ArrayList();
+    private ArrayList<Line> bleachers = new ArrayList();
 
-    public BleachersRenderer(GL2 gl, int brushSize, Color brushColor, LineStrategy lineStrategy) {
+    public BleachersRenderer(GL2 gl, LineStrategy lineStrategy) {
         this.gl = gl;
         this.lineStrategy = lineStrategy;
     }  
@@ -35,15 +35,32 @@ public class BleachersRenderer {
     }
     
     public void addBleacher(Point p1, Point p2) {
-        this.bleachers.add(new Point[] {p1, p2});
+        this.bleachers.add(new Line(p1, p2, brushSize, brushColor));
+    }
+
+    public void setGlobalBrushSize(boolean globalBrushSize) {
+        this.globalBrushSize = globalBrushSize;
+    }
+
+    public void setGlobalBrushColor(boolean globalBrushColor) {
+        this.globalBrushColor = globalBrushColor;
     }
     
     void drawBleachrs() {
         this.bleachers.forEach(bleach -> {
-            Line line = lineStrategy.generateLine(bleach[0], bleach[1]);
+            Line line = lineStrategy.generateLine(bleach.p1, bleach.p2, bleach.thickness, bleach.color);
             
-            gl.glColor3ub((byte) brushColor.getRed(), (byte) brushColor.getGreen(), (byte) brushColor.getBlue());
-            gl.glPointSize(brushSize);
+            if (!globalBrushColor) {
+                gl.glColor3ub((byte) line.color.getRed(), (byte) line.color.getGreen(), (byte) line.color.getBlue());
+            } else {
+                gl.glColor3ub((byte) brushColor.getRed(), (byte) brushColor.getGreen(), (byte) brushColor.getBlue());
+            }
+            
+            if (!globalBrushSize) {
+                gl.glPointSize(line.thickness);
+            } else {
+                gl.glPointSize(brushSize);
+            }
             
             gl.glBegin(GL_POINTS);
                 line.points.forEach(p -> {

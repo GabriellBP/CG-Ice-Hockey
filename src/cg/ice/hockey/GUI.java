@@ -105,15 +105,18 @@ public class GUI extends javax.swing.JFrame {
         lblStatusHeader = new javax.swing.JLabel();
         lblStatus = new javax.swing.JLabel();
         btnReset = new javax.swing.JButton();
+        cboxGlobalThickness = new javax.swing.JCheckBox();
+        lblDensity1 = new javax.swing.JLabel();
+        cboxGlobalColor = new javax.swing.JCheckBox();
 
         bgrpAlgorithm.add(btnBresenham);
         bgrpAlgorithm.add(btnLineEq);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Ice Hockey");
-        setMaximumSize(new java.awt.Dimension(1000, 600));
-        setMinimumSize(new java.awt.Dimension(1000, 600));
-        setPreferredSize(new java.awt.Dimension(1000, 600));
+        setMaximumSize(new java.awt.Dimension(1000, 800));
+        setMinimumSize(new java.awt.Dimension(1000, 800));
+        setPreferredSize(new java.awt.Dimension(1000, 800));
         setResizable(false);
         setSize(new java.awt.Dimension(1000, 600));
 
@@ -129,7 +132,7 @@ public class GUI extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 530, Short.MAX_VALUE)
+            .addGap(0, 730, Short.MAX_VALUE)
         );
 
         btnBresenham.setText("Bresenham");
@@ -140,7 +143,7 @@ public class GUI extends javax.swing.JFrame {
         });
 
         btnLineEq.setSelected(true);
-        btnLineEq.setText("Line equation");
+        btnLineEq.setText("Line / Circumference equation");
         btnLineEq.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLineEqActionPerformed(evt);
@@ -148,14 +151,14 @@ public class GUI extends javax.swing.JFrame {
         });
 
         lblAlgorithm.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        lblAlgorithm.setText("Tipo de algoritmo:");
+        lblAlgorithm.setText("Tipo de algoritmo");
 
         densitySlider.setMaximum(20);
         densitySlider.setMinimum(1);
         densitySlider.setValue(1);
 
         lblDensity.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        lblDensity.setText("Espessura:");
+        lblDensity.setText("Espessura");
 
         btnColorPick.setText("Paleta de Cores");
         btnColorPick.addActionListener(new java.awt.event.ActionListener() {
@@ -179,6 +182,23 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        cboxGlobalThickness.setText("Global");
+        cboxGlobalThickness.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboxGlobalThicknessActionPerformed(evt);
+            }
+        });
+
+        lblDensity1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblDensity1.setText("Cor");
+
+        cboxGlobalColor.setText("Global");
+        cboxGlobalColor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboxGlobalColorActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -188,53 +208,67 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnLineEq)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnBresenham))
                     .addComponent(lblAlgorithm))
                 .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblDensity)
+                    .addComponent(densitySlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(densitySlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblDensity)
                         .addGap(18, 18, 18)
-                        .addComponent(btnColorPick)))
-                .addGap(63, 63, 63)
+                        .addComponent(cboxGlobalThickness)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(lblDensity1)
+                        .addGap(18, 18, 18)
+                        .addComponent(cboxGlobalColor)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                        .addComponent(btnColorPick)
+                        .addGap(36, 36, 36)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblStatusHeader)
-                    .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
                 .addComponent(btnReset)
-                .addContainerGap(157, Short.MAX_VALUE))
+                .addContainerGap(201, Short.MAX_VALUE))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1092, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblAlgorithm, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lblDensity)
-                                .addComponent(lblStatusHeader)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnBresenham)
-                                    .addComponent(btnLineEq))
-                                .addComponent(densitySlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnColorPick)
-                                .addComponent(lblStatus)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblAlgorithm, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblDensity)
+                                    .addComponent(cboxGlobalThickness, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(btnBresenham)
+                                        .addComponent(btnLineEq))
+                                    .addComponent(densitySlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnColorPick)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblDensity1)
+                            .addComponent(cboxGlobalColor, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(lblStatusHeader)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(lblStatus)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnReset)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 730, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnBresenham, btnLineEq});
@@ -264,6 +298,14 @@ public class GUI extends javax.swing.JFrame {
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
         renderer.reset();
     }//GEN-LAST:event_btnResetActionPerformed
+
+    private void cboxGlobalThicknessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxGlobalThicknessActionPerformed
+        updateRenderer();
+    }//GEN-LAST:event_cboxGlobalThicknessActionPerformed
+
+    private void cboxGlobalColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxGlobalColorActionPerformed
+        updateRenderer();
+    }//GEN-LAST:event_cboxGlobalColorActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -303,10 +345,13 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton btnColorPick;
     private javax.swing.JRadioButton btnLineEq;
     private javax.swing.JButton btnReset;
+    private javax.swing.JCheckBox cboxGlobalColor;
+    private javax.swing.JCheckBox cboxGlobalThickness;
     private javax.swing.JSlider densitySlider;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblAlgorithm;
     private javax.swing.JLabel lblDensity;
+    private javax.swing.JLabel lblDensity1;
     private javax.swing.JLabel lblStatus;
     private javax.swing.JLabel lblStatusHeader;
     // End of variables declaration//GEN-END:variables
@@ -324,5 +369,7 @@ public class GUI extends javax.swing.JFrame {
         renderer.setCircleStrategy(getCurrentCircleStrategy());
         renderer.setBrushSize(densitySlider.getValue());
         renderer.setBrushColor(color);
+        renderer.setGlobalBrushSize(cboxGlobalThickness.isSelected());
+        renderer.setGlobalBrushColor(cboxGlobalColor.isSelected());
     }
 }
