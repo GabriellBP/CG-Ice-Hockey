@@ -38,7 +38,7 @@ public class CircumferenceEquationStrategy implements CircleStrategy {
     }
 
     @Override
-    public Circle generateCircle(Point center, int radius, int[] codes) {
+    public Circle generateQuadrant(Point center, int radius, int[] codes) {
         Circle circle = new Circle(center, radius);
         
         for (int i = 0; i < codes.length; i++) {
