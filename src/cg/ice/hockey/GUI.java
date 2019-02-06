@@ -14,18 +14,21 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class GUI extends javax.swing.JFrame {
     private final GLCanvas canvas;
     private Animator animator;
     private GLRenderer renderer;
-    public Color color;
+    public Color color = Color.BLUE;
             
     public GUI() {
         initComponents();
         
-        renderer = new GLRenderer(new GLU(), jPanel1.getWidth(), jPanel1.getHeight(), getCurrentLineStrategy(), getCurrentCircleStrategy());
+        renderer = new GLRenderer(new GLU(), jPanel1.getWidth(), jPanel1.getHeight(), densitySlider.getValue(), color, getCurrentLineStrategy(), getCurrentCircleStrategy());
         renderer.status = lblStatus;
+        btnColorPick.setBackground(color);
         
         canvas = new GLCanvas();
         canvas.setSize(jPanel1.getWidth(), jPanel1.getHeight());
@@ -38,6 +41,7 @@ public class GUI extends javax.swing.JFrame {
 
             @Override
             public void mousePressed(MouseEvent e) {
+                System.out.printf("Clicou em x=%d, y=%d\n", e.getX(), e.getY());
                 updateRenderer();
                 
                 renderer.onClick(e.getX(), e.getY());
@@ -56,6 +60,13 @@ public class GUI extends javax.swing.JFrame {
             @Override
             public void mouseExited(MouseEvent e) {
                 
+            }
+        });
+        
+        densitySlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                updateRenderer();
             }
         });
         
@@ -139,6 +150,7 @@ public class GUI extends javax.swing.JFrame {
         lblAlgorithm.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblAlgorithm.setText("Tipo de algoritmo:");
 
+        densitySlider.setMaximum(20);
         densitySlider.setMinimum(1);
         densitySlider.setValue(1);
 
@@ -231,10 +243,12 @@ public class GUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnColorPickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnColorPickActionPerformed
-        this.color = javax.swing.JColorChooser.showDialog(GUI.this, "Selecione uma cor", Color.lightGray);
-        if (this.color == null) {
-            this.color = Color.lightGray;
+        Color newColor = javax.swing.JColorChooser.showDialog(GUI.this, "Selecione uma cor", Color.lightGray);
+        if (newColor != null) {
+            color = newColor;
+            btnColorPick.setBackground(color);
         }
+        updateRenderer();
     }//GEN-LAST:event_btnColorPickActionPerformed
 
     private void btnLineEqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLineEqActionPerformed
@@ -308,5 +322,7 @@ public class GUI extends javax.swing.JFrame {
     private void updateRenderer() {
         renderer.setLineStrategy(getCurrentLineStrategy());
         renderer.setCircleStrategy(getCurrentCircleStrategy());
+        renderer.setBrushSize(densitySlider.getValue());
+        renderer.setBrushColor(color);
     }
 }

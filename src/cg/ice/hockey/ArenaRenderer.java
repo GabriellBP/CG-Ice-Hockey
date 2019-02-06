@@ -11,15 +11,21 @@ import java.util.ArrayList;
 
 public class ArenaRenderer {
     private GL2 gl;
+    private int brushSize;
     private LineStrategy lineStrategy;
     private CircleStrategy circleStrategy;
 
-    public ArenaRenderer(GL2 gl, LineStrategy lineStrategy, CircleStrategy circleStrategy) {
+    public ArenaRenderer(GL2 gl, int brushSize, LineStrategy lineStrategy, CircleStrategy circleStrategy) {
         this.gl = gl;
+        this.brushSize = brushSize;
         this.lineStrategy = lineStrategy;
         this.circleStrategy = circleStrategy;
     }
 
+    public void setBrushSize(int brushSize) {
+        this.brushSize = brushSize;
+    }
+    
     public void setLineStrategy(LineStrategy lineStrategy) {
         this.lineStrategy = lineStrategy;
     }
@@ -85,12 +91,14 @@ public class ArenaRenderer {
         lines.add(bottomMidAreaLine);
         
         gl.glColor3ub((byte) 0, (byte) 0, (byte) 0);
+        gl.glPointSize(brushSize);
+        
         circles.forEach(circle -> {
-            circle.points.forEach(p -> {
-                gl.glBegin(GL_POINTS);
+            gl.glBegin(GL_POINTS);
+                circle.points.forEach(p -> {
                     gl.glVertex2d(p.x, p.y);
-                gl.glEnd();
-            });
+                });
+            gl.glEnd();
         });
         
         lines.forEach(line -> {
@@ -100,5 +108,7 @@ public class ArenaRenderer {
                 gl.glEnd();
             });
         });
+        
+        gl.glPointSize(1);
     }
 }
