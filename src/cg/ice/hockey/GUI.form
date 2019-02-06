@@ -72,7 +72,7 @@
               <Component id="btnReset" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="157" max="32767" attributes="0"/>
           </Group>
-          <Component id="jPanel1" alignment="0" pref="1046" max="32767" attributes="0"/>
+          <Component id="jPanel1" alignment="0" pref="1092" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">

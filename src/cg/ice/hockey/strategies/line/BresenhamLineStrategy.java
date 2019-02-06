@@ -2,7 +2,6 @@ package cg.ice.hockey.strategies.line;
 
 import cg.ice.hockey.util.Point;
 import cg.ice.hockey.util.Line;
-import static java.lang.Math.abs;
 
 public class BresenhamLineStrategy implements LineStrategy {
 
